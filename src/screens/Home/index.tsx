@@ -11,6 +11,9 @@ import { CategorySelect } from '../../components/CategorySelect'
 import { Appointment } from '../../components/Appointment'
 import { ListDivider } from '../../components/ListDivider'
 
+import { Background } from '../../components/Background'
+import { useNavigation } from '@react-navigation/native'
+
 export function Home() {
 
   const [category, setCategory] = useState('')
@@ -29,9 +32,9 @@ export function Home() {
       description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'
     },
     {
-      id: '1',
+      id: '2',
       guild: {
-        id: '1',
+        id: '2',
         name: "Lendários",
         icon: null,
         owner: true
@@ -42,13 +45,19 @@ export function Home() {
     }
   ]
 
+  const navigation = useNavigation()
+
   function handleCategorySelect(categoryId: string) {
     categoryId === category ? setCategory('') : setCategory(categoryId)
   }
 
+  function handleAppointmentDetails(){
+    navigation.navigate('AppointmentDetails')
+  }
+
 
   return (
-    <View>
+    <Background>
       <View style={styles.header}>
         <Profile></Profile>
         <ButtonAdd></ButtonAdd>
@@ -70,6 +79,7 @@ export function Home() {
           renderItem={({ item }) => (
             <Appointment
               data={item}
+              onPress={handleAppointmentDetails}
             />
           )}
           ItemSeparatorComponent={() => <ListDivider />}
@@ -77,7 +87,7 @@ export function Home() {
           showsVerticalScrollIndicator={false}
         />
       </View>
-    </View>
+    </Background>
 
   )
 }
