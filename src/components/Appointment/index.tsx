@@ -4,9 +4,16 @@ import { View, Text } from 'react-native'
 
 import { styles } from './styles'
 import { GuildIcon } from '../GuildIcon'
+import { categories } from '../../utils/categories'
+import { theme } from '../../global/styles/theme'
+import PlayerSvg from '../../assets/player.svg'
+import CalendarSvg from '../../assets/calendar.svg'
 
 export type GuildProps = {
-
+  id: string,
+  name: string,
+  icon: null,
+  owner: boolean
 }
 
 export type AppointmentProps = {
@@ -25,6 +32,8 @@ type Props = RectButtonProps & {
 export function Appointment({ data, ...rest }: Props) {
 
   const [category] = categories.filter(item => item.id === data.category)
+  const { owner } = data.guild
+  const { primary, on } = theme.colors
 
   return (
     <RectButton {...rest}>
@@ -38,8 +47,22 @@ export function Appointment({ data, ...rest }: Props) {
             <Text style={styles.category}>
               {category.title}
             </Text>
-
-
+          </View>
+          <View style={styles.footer}>
+            <View style={styles.dataInfo}>
+              <CalendarSvg></CalendarSvg>
+              <Text style={styles.date}>
+                {data.date}
+              </Text>
+            </View>
+            <View style={styles.playerInfo}>
+              <PlayerSvg fill={owner ? primary : owner}></PlayerSvg>
+              <Text style={[
+                styles.player, { color: owner ? primary : on }
+              ]}>
+                {owner ? 'Anfitrião' : 'Visitante'}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
